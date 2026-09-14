@@ -4,8 +4,7 @@ Website demo (PHP + MySQL) mô phỏng **5 lỗ hổng trong OWASP Top 10:2025**
 khắc phục. Dự án phục vụ **mục đích học tập** trong môi trường thử nghiệm (localhost / máy ảo).
 **Không** triển khai bản có lỗ hổng ra Internet công khai.
 
-> Giao diện hiện được thiết kế lại thành **Vườn Xanh — cửa hàng cây cảnh**, nhưng toàn bộ
-> cơ chế lỗ hổng và cách khắc phục vẫn được giữ nguyên để phục vụ demo bảo mật.
+
 
 ## Chức năng chính (đáp ứng yêu cầu đề bài)
 
