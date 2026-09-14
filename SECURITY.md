@@ -179,7 +179,7 @@ Bổ sung: header `Content-Security-Policy`, cookie `HttpOnly` (đã bật ở s
 
 ---
 
-## Phụ lục — Lỗ hổng bổ sung đã xử lý ở chế độ secure
+## Lỗ hổng bổ sung đã xử lý ở chế độ secure
 
 Ngoài 5 lỗ hổng chính, chế độ secure còn minh họa thêm (thuộc OWASP Top 10:2025):
 
