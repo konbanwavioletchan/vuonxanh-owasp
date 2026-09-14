@@ -190,6 +190,7 @@ Ngoài 5 lỗ hổng chính, chế độ secure còn minh họa thêm (thuộc O
   kiểm tra số dư/tồn kho → số dư âm, race condition. Ở secure dùng transaction +
   `UPDATE ... WHERE balance >= price` (nguyên tử).
 
-Với mỗi lỗ hổng, chụp 2 ảnh:
+## CONG TAC AN TOAN / SECURE MODE
+
 1. **Trước (SECURE=false):** thực hiện khai thác thành công (payload + kết quả).
 2. **Sau (SECURE=true):** lặp lại chính thao tác đó → bị chặn / không còn hiệu lực.
