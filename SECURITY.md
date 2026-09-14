@@ -1,24 +1,24 @@
-# 5 lo hong OWASP Top 10:2025 — Khai thac & Khac phuc
+# 5 lỗ hổng OWASP Top 10:2025 — Khai thác & Khắc phục
 
-Tai lieu mo ta 5 lo hong duoc cai dat co chu dich trong website, cach **khai thac**
-(o che do `SECURE = false`) va cach **khac phuc** (o che do `SECURE = true`).
-Moi lo hong deu co san ca hai nhanh code trong cung mot file — chi doi hang so
-`SECURE` trong [config/config.php](config/config.php) de so sanh truoc/sau.
+Tài liệu mô tả 5 lỗ hổng được cài đặt có chủ đích trong website, cách **khai thác**
+(ở chế độ `SECURE = false`) và cách **khắc phục** (ở chế độ `SECURE = true`).
+Mỗi lỗ hổng đều có sẵn cả hai nhánh code trong cùng một file — chỉ đổi hằng số
+`SECURE` trong [config/config.php](config/config.php) để so sánh trước/sau.
 
-> Che do mac dinh la `false` (co lo hong) de tien demo. Sau khi bao cao xong, dat
-> `SECURE = true` de chay ban da va.
+> Chế độ mặc định là `false` (có lỗ hổng) để tiện demo. Sau khi báo cáo xong, đặt
+> `SECURE = true` để chạy bản đã vá.
 
-5 lo hong duoc chon deu thuoc **OWASP Top 10:2025** (4/5 nam trong nhom Top 5 moi nhat):
+5 lỗ hổng được chọn đều thuộc **OWASP Top 10:2025** (4/5 nằm trong nhóm Top 5 mới nhất):
 
-| # | OWASP 2025 | Lo hong cu the | File |
+| # | OWASP 2025 | Lỗ hổng cụ thể | File |
 |---|-----------|----------------|------|
-| 1 | **A01:2025 – Broken Access Control** | Thieu kiem tra quyen admin + IDOR ho so | `admin.php`, `profile.php` |
-| 2 | **A02:2025 – Security Misconfiguration** | Lo loi/CSDL, khong chan liet ke thu muc | `config.php`, VirtualHost |
-| 3 | **A04:2025 – Cryptographic Failures** | Bam mat khau bang MD5 (khong salt) | `functions.php` |
+| 1 | **A01:2025 – Broken Access Control** | Thiếu kiểm tra quyền admin + IDOR hồ sơ | `admin.php`, `profile.php` |
+| 2 | **A02:2025 – Security Misconfiguration** | Lộ lỗi/CSDL, không chặn liệt kê thư mục | `config.php`, VirtualHost |
+| 3 | **A04:2025 – Cryptographic Failures** | Băm mật khẩu bằng MD5 (không salt) | `functions.php` |
 | 4 | **A05:2025 – Injection** | SQL Injection + Stored XSS | `login.php`, `search.php`, `post.php` |
-| 5 | **A07:2025 – Authentication Failures** | Khong chan brute-force, mat khau yeu, session fixation | `login.php` |
+| 5 | **A07:2025 – Authentication Failures** | Không chặn brute-force, mật khẩu yếu, session fixation | `login.php` |
 
-> Danh sach OWASP Top 10:2025 day du: A01 Broken Access Control · A02 Security
+> Danh sách OWASP Top 10:2025 đầy đủ: A01 Broken Access Control · A02 Security
 > Misconfiguration · A03 Software Supply Chain Failures · A04 Cryptographic Failures ·
 > A05 Injection · A06 Insecure Design · A07 Authentication Failures · A08 Software and
 > Data Integrity Failures · A09 Logging & Alerting Failures · A10 Mishandling of
@@ -26,172 +26,172 @@ Moi lo hong deu co san ca hai nhanh code trong cung mot file — chi doi hang so
 
 ---
 
-## 1. A01:2025 — Broken Access Control (Kiem soat truy cap hong)
+## 1. A01:2025 — Broken Access Control (Kiểm soát truy cập hỏng)
 
-### Vi tri
-- `public/admin.php` — trang quan tri.
-- `public/profile.php` — chinh sua ho so.
+### Vị trí
+- `public/admin.php` — trang quản trị.
+- `public/profile.php` — chỉnh sửa hồ sơ.
 
-### Nguyen nhan (che do vulnerable)
-- `admin.php` **khong goi** `require_admin()`. Trang khong hien link cho user thuong,
-  nhung do la "an toan bang che giau" (security by obscurity) — van vao thang bang URL.
-- `profile.php` tin tuong truong `id` gui tu client => **IDOR** (Insecure Direct Object
-  Reference): sua duoc ho so nguoi khac, tham chi **mass-assignment** truong `balance`.
+### Nguyên nhân (chế độ vulnerable)
+- `admin.php` **không gọi** `require_admin()`. Trang không hiện link cho user thường,
+  nhưng đó là "an toàn bằng che giấu" (security by obscurity) — vẫn vào thẳng bằng URL.
+- `profile.php` tin tưởng trường `id` gửi từ client => **IDOR** (Insecure Direct Object
+  Reference): sửa được hồ sơ người khác, thậm chí **mass-assignment** trường `balance`.
 
-### Cach khai thac
-1. Dang nhap bang tai khoan thuong `alice / password1`.
-2. Truy cap thang `http://localhost/owasp-shop/public/admin.php` → **vao duoc** trang quan tri
-   du khong phai admin; co the tu nang quyen minh len `admin` hoac cong coin.
-3. IDOR: mo `profile.php?id=1` (ho so admin) → van thay form sua. Gui POST voi
-   `id=1&bio=hacked&balance=999999` (vi du bang DevTools/Burp) → sua duoc so du nguoi khac.
+### Cách khai thác
+1. Đăng nhập bằng tài khoản thường `alice / password1`.
+2. Truy cập thẳng `http://localhost/owasp-shop/public/admin.php` → **vào được** trang quản trị
+   dù không phải admin; có thể tự nâng quyền mình lên `admin` hoặc cộng coin.
+3. IDOR: mở `profile.php?id=1` (hồ sơ admin) → vẫn thấy form sửa. Gửi POST với
+   `id=1&bio=hacked&balance=999999` (ví dụ bằng DevTools/Burp) → sửa được số dư người khác.
 
-### Khac phuc (che do secure)
-- `admin.php` goi `require_admin($conn)` — **kiem tra vai tro o phia server** cho MOI request.
-- `profile.php` bo qua `id` client gui len, **chi cho sua ho so cua chinh minh**
-  (`$target = $_SESSION['user_id']`) va **khong** cho sua `balance` qua form nguoi dung.
-- Nguyen tac: kiem tra phan quyen o server, "deny by default", khong bao gio tin ID tu client.
-
----
-
-## 2. A02:2025 — Security Misconfiguration (Cau hinh sai an toan)
-
-### Vi tri
-`config/config.php` (hien thi loi), cach cau hinh web server (liet ke thu muc,
-lo file nhay cam).
-
-### Nguyen nhan (che do vulnerable)
-- Bat `display_errors = 1`, `error_reporting(E_ALL)` → **lo thong tin** duong dan,
-  cau lenh SQL, ten cot (`mysqli_error()` in ra o `search.php`) — ho tro ke tan cong.
-- Neu DocumentRoot tro vao thu muc goc (khong phai `public/`), attacker co the tai
-  `config/config.php`, `db/schema.sql`... Neu Apache bat `Options Indexes` → **liet ke thu muc**.
-
-### Cach khai thac
-1. Gui payload SQL sai o `search.php?q='` → man hinh in **loi SQL day du** (ten bang, cot).
-2. Truy cap `http://localhost/owasp-shop/db/schema.sql` (neu web root sai) → tai duoc CSDL.
-
-### Khac phuc (che do secure)
-- Tat lo loi ra ngoai: `display_errors = 0`, `error_reporting(0)`; ghi log noi bo thay vi in ra.
-- **DocumentRoot chi tro vao `public/`** (xem VirtualHost trong README) — cac thu muc
-  `config`, `db`, `includes` nam **ngoai** web root, khong the truy cap qua URL.
-- Tat liet ke thu muc: `Options -Indexes`.
-- Go du lieu/tai khoan mac dinh, doi mat khau CSDL (khong dung `root` khong mat khau).
+### Khắc phục (chế độ secure)
+- `admin.php` gọi `require_admin($conn)` — **kiểm tra vai trò ở phía server** cho MỌI request.
+- `profile.php` bỏ qua `id` client gửi lên, **chỉ cho sửa hồ sơ của chính mình**
+  (`$target = $_SESSION['user_id']`) và **không** cho sửa `balance` qua form người dùng.
+- Nguyên tắc: kiểm tra phân quyền ở server, "deny by default", không bao giờ tin ID từ client.
 
 ---
 
-## 3. A04:2025 — Cryptographic Failures (Loi mat ma hoc)
+## 2. A02:2025 — Security Misconfiguration (Cấu hình sai an toàn)
 
-### Vi tri
-`includes/functions.php` — ham `hash_password()` / `verify_password()`;
-cot `users.password_md5` trong CSDL.
+### Vị trí
+`config/config.php` (hiển thị lỗi), cách cấu hình web server (liệt kê thư mục,
+lộ file nhạy cảm).
 
-### Nguyen nhan (che do vulnerable)
-Mat khau duoc bam bang **MD5 khong salt**: `md5($password)`.
-MD5 rat nhanh, co san rainbow table, khong salt → de crack hang loat neu lo CSDL.
+### Nguyên nhân (chế độ vulnerable)
+- Bật `display_errors = 1`, `error_reporting(E_ALL)` → **lộ thông tin** đường dẫn,
+  câu lệnh SQL, tên cột (`mysqli_error()` in ra ở `search.php`) — hỗ trợ kẻ tấn công.
+- Nếu DocumentRoot trỏ vào thư mục gốc (không phải `public/`), attacker có thể tải
+  `config/config.php`, `db/schema.sql`... Nếu Apache bật `Options Indexes` → **liệt kê thư mục**.
 
-### Cach khai thac
-1. Lay hash tu CSDL (vi du qua lo hong SQL Injection o muc 4, hoac `SELECT password_md5 FROM users`).
-2. Tra nguoc bang rainbow table / Google:
+### Cách khai thác
+1. Gửi payload SQL sai ở `search.php?q='` → màn hình in **lỗi SQL đầy đủ** (tên bảng, cột).
+2. Truy cập `http://localhost/owasp-shop/db/schema.sql` (nếu web root sai) → tải được CSDL.
+
+### Khắc phục (chế độ secure)
+- Tắt lộ lỗi ra ngoài: `display_errors = 0`, `error_reporting(0)`; ghi log nội bộ thay vì in ra.
+- **DocumentRoot chỉ trỏ vào `public/`** (xem VirtualHost trong README) — các thư mục
+  `config`, `db`, `includes` nằm **ngoài** web root, không thể truy cập qua URL.
+- Tắt liệt kê thư mục: `Options -Indexes`.
+- Gỡ dữ liệu/tài khoản mặc định, đổi mật khẩu CSDL (không dùng `root` không mật khẩu).
+
+---
+
+## 3. A04:2025 — Cryptographic Failures (Lỗi mật mã học)
+
+### Vị trí
+`includes/functions.php` — hàm `hash_password()` / `verify_password()`;
+cột `users.password_md5` trong CSDL.
+
+### Nguyên nhân (chế độ vulnerable)
+Mật khẩu được băm bằng **MD5 không salt**: `md5($password)`.
+MD5 rất nhanh, có sẵn rainbow table, không salt → dễ crack hàng loạt nếu lộ CSDL.
+
+### Cách khai thác
+1. Lấy hash từ CSDL (ví dụ qua lỗ hổng SQL Injection ở mục 4, hoặc `SELECT password_md5 FROM users`).
+2. Tra ngược bằng rainbow table / Google:
    - `0192023a7bbd73250516f069df18b500` → `admin123`
    - `7c6a180b36896a0a8c02787eeafb0e4c` → `password1`
-3. Dang nhap bang mat khau vua crack.
+3. Đăng nhập bằng mật khẩu vừa crack.
 
-### Khac phuc (che do secure)
-- Dung `password_hash($password, PASSWORD_BCRYPT)` (bcrypt, co salt, co work factor).
-- Kiem tra bang `password_verify()`; luu vao cot `password_hash`.
-- Bcrypt cham co chu dich + salt ngau nhien → khong dung rainbow table, chong crack hang loat.
-- Nen bo sung: `password_needs_rehash()` de nang cap dan work factor theo thoi gian.
+### Khắc phục (chế độ secure)
+- Dùng `password_hash($password, PASSWORD_BCRYPT)` (bcrypt, có salt, có work factor).
+- Kiểm tra bằng `password_verify()`; lưu vào cột `password_hash`.
+- Bcrypt chậm có chủ đích + salt ngẫu nhiên → không dùng rainbow table, chống crack hàng loạt.
+- Nên bổ sung: `password_needs_rehash()` để nâng cấp dần work factor theo thời gian.
 
 ---
 
 ## 4. A05:2025 — Injection (SQL Injection & Cross-Site Scripting)
 
 ### 4a. SQL Injection
-**Vi tri:** `public/login.php` (o Ten dang nhap), `public/search.php` (tham so `q`).
+**Vị trí:** `public/login.php` (ô Tên đăng nhập), `public/search.php` (tham số `q`).
 
-**Nguyen nhan (vulnerable):** noi chuoi truc tiep vao cau lenh SQL. O `login.php`,
-ca username va mat khau (md5) deu ghep thang vao cau lenh:
+**Nguyên nhân (vulnerable):** nối chuỗi trực tiếp vào câu lệnh SQL. Ở `login.php`,
+cả username và mật khẩu (md5) đều ghép thẳng vào câu lệnh:
 ```php
 $sql = "SELECT * FROM users WHERE username = '$username' AND password_md5 = '$md5'";
 ```
 
-**Cach khai thac:**
-- **Bypass dang nhap:** o o Ten dang nhap nhap `admin' -- ` (co dau cach cuoi),
-  mat khau bo trong → cau lenh thanh
-  `... WHERE username = 'admin' -- ' AND password_md5 = '...'`, phan kiem tra mat khau
-  bi comment → **dang nhap thang vao admin ma khong can mat khau**.
-  Hoac `' OR '1'='1' LIMIT 1 -- ` → dang nhap thanh user dau tien.
-- **Trich xuat du lieu (UNION) qua tim kiem:**
+**Cách khai thác:**
+- **Bypass đăng nhập:** ở ô Tên đăng nhập nhập `admin' -- ` (có dấu cách cuối),
+  mật khẩu bỏ trống → câu lệnh thành
+  `... WHERE username = 'admin' -- ' AND password_md5 = '...'`, phần kiểm tra mật khẩu
+  bị comment → **đăng nhập thẳng vào admin mà không cần mật khẩu**.
+  Hoặc `' OR '1'='1' LIMIT 1 -- ` → đăng nhập thành user đầu tiên.
+- **Trích xuất dữ liệu (UNION) qua tìm kiếm:**
   ```
   search.php?q=x' UNION SELECT id,username,password_md5,role,created_at,username FROM users -- -
   ```
-  → hash mat khau moi user hien ra o phan tieu de ket qua tim kiem.
+  → hash mật khẩu mọi user hiện ra ở phần tiêu đề kết quả tìm kiếm.
 
-**Khac phuc (secure):** dung **prepared statement** (tham so hoa):
+**Khắc phục (secure):** dùng **prepared statement** (tham số hóa):
 ```php
 $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
 mysqli_stmt_bind_param($stmt, 's', $username);
 ```
-Du lieu nguoi dung khong bao gio duoc ghep vao cau lenh → khong the doi cau truc SQL.
+Dữ liệu người dùng không bao giờ được ghép vào câu lệnh → không thể đổi cấu trúc SQL.
 
 ### 4b. Stored XSS
-**Vi tri:** `public/post.php` — noi dung binh luan; ham `out()` trong `functions.php`.
+**Vị trí:** `public/post.php` — nội dung bình luận; hàm `out()` trong `functions.php`.
 
-**Nguyen nhan (vulnerable):** khi **xuat** ra HTML, `out()` tra nguyen van khong escape:
+**Nguyên nhân (vulnerable):** khi **xuất** ra HTML, `out()` trả nguyên văn không escape:
 ```php
-<span><?= out($c['body']) ?></span>   // out() = tra thang o che do vulnerable
+<span><?= out($c['body']) ?></span>   // out() = trả thẳng ở chế độ vulnerable
 ```
 
-**Cach khai thac:** dang nhap, vao 1 bai viet, gui binh luan:
+**Cách khai thác:** đăng nhập, vào 1 bài viết, gửi bình luận:
 ```html
 <script>alert(document.cookie)</script>
 ```
-→ moi nguoi xem bai viet se chay doan script (danh cap cookie/session, deface...).
+→ mọi người xem bài viết sẽ chạy đoạn script (đánh cắp cookie/session, deface...).
 
-**Khac phuc (secure):** escape output bang `htmlspecialchars(..., ENT_QUOTES)`:
+**Khắc phục (secure):** escape output bằng `htmlspecialchars(..., ENT_QUOTES)`:
 ```php
 function out($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
 ```
-Ky tu `< > " '` bi ma hoa → trinh duyet hien thi dang van ban, khong chay script.
-Bo sung: header `Content-Security-Policy`, cookie `HttpOnly` (da bat o secure).
+Ký tự `< > " '` bị mã hóa → trình duyệt hiển thị dạng văn bản, không chạy script.
+Bổ sung: header `Content-Security-Policy`, cookie `HttpOnly` (đã bật ở secure).
 
 ---
 
-## 5. A07:2025 — Authentication Failures (Loi xac thuc & dinh danh)
+## 5. A07:2025 — Authentication Failures (Lỗi xác thực & định danh)
 
-### Vi tri
-`public/login.php`, `public/register.php`, cau hinh session.
+### Vị trí
+`public/login.php`, `public/register.php`, cấu hình session.
 
-### Nguyen nhan (che do vulnerable)
-- **Khong gioi han so lan dang nhap sai** → brute-force / credential stuffing thoai mai.
-- **Khong co chinh sach mat khau** (chap nhan mat khau ngan nhu `123`).
-- **Session fixation:** khong goi `session_regenerate_id()` sau khi dang nhap; cookie thieu `HttpOnly`.
+### Nguyên nhân (chế độ vulnerable)
+- **Không giới hạn số lần đăng nhập sai** → brute-force / credential stuffing thoải mái.
+- **Không có chính sách mật khẩu** (chấp nhận mật khẩu ngắn như `123`).
+- **Session fixation:** không gọi `session_regenerate_id()` sau khi đăng nhập; cookie thiếu `HttpOnly`.
 
-### Cach khai thac
-- Dung cong cu (Hydra/Burp Intruder) thu hang nghin mat khau vao `login.php` — khong bi chan.
-- Vi mat khau nguoi dung yeu (`qwerty`, `password1`) → do thanh cong cao.
+### Cách khai thác
+- Dùng công cụ (Hydra/Burp Intruder) thử hàng nghìn mật khẩu vào `login.php` — không bị chặn.
+- Vì mật khẩu người dùng yếu (`qwerty`, `password1`) → dò thành công cao.
 
-### Khac phuc (che do secure)
-- **Chan brute-force:** ham `too_many_attempts()` khoa 15 phut sau 5 lan sai
-  (bang bang `login_attempts`); nen them CAPTCHA / do tre tang dan.
-- **Chinh sach mat khau:** yeu cau toi thieu 8 ky tu khi dang ky.
-- **Session:** goi `session_regenerate_id(true)` sau dang nhap (chong fixation);
-  cookie `HttpOnly` + `SameSite=Lax` (bat trong `config.php`); bat `Secure` khi chay HTTPS.
+### Khắc phục (chế độ secure)
+- **Chặn brute-force:** hàm `too_many_attempts()` khóa 15 phút sau 5 lần sai
+  (bằng bảng `login_attempts`); nên thêm CAPTCHA / độ trễ tăng dần.
+- **Chính sách mật khẩu:** yêu cầu tối thiểu 8 ký tự khi đăng ký.
+- **Session:** gọi `session_regenerate_id(true)` sau đăng nhập (chống fixation);
+  cookie `HttpOnly` + `SameSite=Lax` (bật trong `config.php`); bật `Secure` khi chạy HTTPS.
 
 ---
 
-## Phu luc — Lo hong bo sung da xu ly o che do secure
+## Phụ lục — Lỗ hổng bổ sung đã xử lý ở chế độ secure
 
-Ngoai 5 lo hong chinh, che do secure con minh hoa them (thuoc OWASP Top 10:2025):
+Ngoài 5 lỗ hổng chính, chế độ secure còn minh họa thêm (thuộc OWASP Top 10:2025):
 
-- **CSRF (lien quan A01:2025 – Broken Access Control):** o secure, moi form co token CSRF
-  (`csrf_field()` / `csrf_check()`); o vulnerable khong co → ke tan cong co the lam nan nhan
-  gui request ngoai y muon. Da chan bang token dong bo + `SameSite`.
-- **Business logic (A06:2025 – Insecure Design) o `buy.php`:** o vulnerable, mua hang khong
-  kiem tra so du/ton kho → so du am, race condition. O secure dung transaction +
-  `UPDATE ... WHERE balance >= price` (nguyen tu).
+- **CSRF (liên quan A01:2025 – Broken Access Control):** ở secure, mọi form có token CSRF
+  (`csrf_field()` / `csrf_check()`); ở vulnerable không có → kẻ tấn công có thể làm nạn nhân
+  gửi request ngoài ý muốn. Đã chặn bằng token đồng bộ + `SameSite`.
+- **Business logic (A06:2025 – Insecure Design) ở `buy.php`:** ở vulnerable, mua hàng không
+  kiểm tra số dư/tồn kho → số dư âm, race condition. Ở secure dùng transaction +
+  `UPDATE ... WHERE balance >= price` (nguyên tử).
 
-## Checklist demo (goi y noi dung bao cao)
+## Checklist demo (gợi ý nội dung báo cáo)
 
-Voi moi lo hong, chup 2 anh:
-1. **Truoc (SECURE=false):** thuc hien khai thac thanh cong (payload + ket qua).
-2. **Sau (SECURE=true):** lap lai chinh thao tac do → bi chan / khong con hieu luc.
+Với mỗi lỗ hổng, chụp 2 ảnh:
+1. **Trước (SECURE=false):** thực hiện khai thác thành công (payload + kết quả).
+2. **Sau (SECURE=true):** lặp lại chính thao tác đó → bị chặn / không còn hiệu lực.

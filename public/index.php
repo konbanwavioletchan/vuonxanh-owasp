@@ -144,7 +144,7 @@ $posts = mysqli_query($conn,
     <div class="sec-head-c"><h2>Câu hỏi thường gặp</h2></div>
     <details><summary>Cây có được bảo hành không?</summary><p>Có. Mọi cây được bảo hành 7 ngày kể từ khi nhận. Nếu cây gặp vấn đề do vận chuyển hoặc dưỡng, chúng tôi đổi cây mới.</p></details>
     <details><summary>Tôi không biết chăm cây thì sao?</summary><p>Mỗi đơn hàng đều kèm cẩm nang chăm sóc riêng cho loại cây bạn mua, và bạn có thể nhắn tin nhờ tư vấn bất cứ lúc nào.</p></details>
-    <details><summary>Giao hàng mất bao lâu?</summary><p>Nội thành TP.HCM giao trong 24h. Các tỉnh khác từ 2–4 ngày, cây được đóng gói cố định chắc chắn.</p></details>
+    <details><summary>Giao hàng mất bao lâu?</summary><p>Nội thành TP.Hà Nội giao trong 24h. Các tỉnh khác từ 2–4 ngày, cây được đóng gói cố định chắc chắn.</p></details>
     <details><summary>Có cây hợp phòng thiếu sáng không?</summary><p>Có. Trầu bà, lưỡi hổ, kim tiền... đều chịu bóng tốt, rất hợp phòng ngủ và văn phòng ít nắng.</p></details>
     <details><summary>Có xuất hóa đơn / mua số lượng lớn không?</summary><p>Có. Vui lòng liên hệ hotline để được báo giá sỉ và xuất hóa đơn cho văn phòng, sự kiện.</p></details>
 </section>
@@ -170,10 +170,10 @@ $posts = mysqli_query($conn,
             <h2>Liên hệ với chúng tôi</h2>
             <p class="hint">Cần tư vấn chọn cây? Nhắn cho Vườn Xanh, đội ngũ sẽ phản hồi trong ngày.</p>
             <ul class="contact-info">
-                <li>📍 123 Đường Cây Xanh, Quận 1, TP.HCM</li>
-                <li>📞 0900 123 456</li>
-                <li>✉️ hello@vuonxanh.vn</li>
-                <li>🕘 8:00 – 21:00 (T2 – CN)</li>
+                <li>📍 Ngõ 21 Yên Xá, Tân Triều, Thanh Trì, Hà Nội</li>
+                <li>📞 0976 701 275</li>
+                <li>✉️ huyph2005@gmail.com</li>
+                <li>🕘 8:00 – 21:00 (T2 – T7)</li>
             </ul>
         </div>
         <form class="card form contact-form" data-demo action="#">

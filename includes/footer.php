@@ -20,9 +20,9 @@
         </div>
         <div class="footer-col">
             <h4>Liên hệ</h4>
-            <p>📍 123 Đường Cây Xanh, Q.1, TP.HCM</p>
-            <p>📞 0900 123 456</p>
-            <p>✉️ hello@vuonxanh.vn</p>
+            <p>📍 Ngõ 21 Yên Xá, Tân Triều, Thanh Trì, Hà Nội</p>
+            <p>📞 0976701275</p>
+            <p>✉️ huyph2005@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
