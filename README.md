@@ -6,7 +6,7 @@ khắc phục. Dự án phục vụ **mục đích học tập** trong môi trư
 
 
 
-## Chức năng chính (đáp ứng yêu cầu đề bài)
+## Chức năng chính
 
 | Yêu cầu | Trang / File |
 |---|---|
@@ -39,18 +39,15 @@ define('DB_HOST', '127.0.0.1');
 define('DB_USER', 'root');
 define('DB_PASS', '');     // XAMPP/MariaDB mặc định để trống
 define('DB_NAME', 'owasp_shop');
-define('DB_PORT', 3307);   // 3306 là cổng mặc định của MySQL/MariaDB.
-                           // Dự án đang để 3307 vì máy demo có sẵn MySQL 8 chiếm cổng 3306.
+define('DB_PORT', 3307);   // giá trị mặc định của dự án; XAMPP thường dùng 3306 -> đổi cho khớp
 ```
 
-> **Quan trọng:** cổng khai báo ở đây phải trùng với cổng bạn dùng khi nạp `db/schema.sql`.
-> Nếu nạp schema vào server ở cổng 3306 nhưng `DB_PORT` để 3307 (hoặc ngược lại), web sẽ
-> báo lỗi không kết nối được CSDL hoặc không tìm thấy bảng. Xem cổng MariaDB thực tế trong
-> XAMPP Control Panel (nút **Config** → `my.ini` → mục `port=`).
+> `DB_PORT` phải trùng cổng của MySQL/MariaDB đang chạy, nếu không web sẽ báo không kết
+> nối được CSDL. Xem cổng thực tế trong XAMPP Control Panel → **Config** → `my.ini` → `port=`.
 
 ## Cài đặt nhanh (Windows + XAMPP)
 
-> Mã nguồn đặt trong `htdocs` của XAMPP, thư mục tên `owasp-shop`.
+> Clone / giải nén mã nguồn vào `htdocs` của XAMPP, đổi tên thư mục thành `owasp-shop`.
 
 1. Cài [XAMPP](https://www.apachefriends.org/), bật **Apache** + **MySQL** trong Control Panel.
 2. Sửa thông tin kết nối trong `config/config.php` (xem mục **Cấu hình kết nối CSDL** ở trên).

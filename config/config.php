@@ -20,7 +20,8 @@ define('DB_USER', 'root');
 define('DB_PASS', '');          // XAMPP/MariaDB mac dinh de trong.
                                 // Neu dung MySQL 8 co dat mat khau root => dien vao day.
 define('DB_NAME', 'owasp_shop');
-define('DB_PORT', 3307);   // XAMPP MariaDB (MySQL 8 chiem cong 3306)
+define('DB_PORT', 3307);   // Mac dinh cua du an. XAMPP thuong dung 3306 -> sua cho khop
+                           // cong MySQL/MariaDB dang chay tren may ban.
 
 // ----- Cau hinh hien thi loi -----
 if (SECURE) {
