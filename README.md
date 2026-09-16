@@ -1,4 +1,4 @@
-# OWASP Demo Shop
+# OWASP Demo Web
 
 Website demo (PHP + MySQL) mô phỏng **5 lỗ hổng trong OWASP Top 10:2025**, kèm giải pháp
 khắc phục. Dự án phục vụ **mục đích học tập** trong môi trường thử nghiệm (localhost / máy ảo).
@@ -35,16 +35,15 @@ trang cho biết đang ở chế độ nào (đỏ = có lỗ hổng, xanh = an 
 ## Cài đặt nhanh (Windows + XAMPP)
 
 1. Cài [XAMPP](https://www.apachefriends.org/) (Apache + MySQL + PHP).
-2. Chép thư mục dự án vào `C:\xampp\htdocs\owasp-shop`.
-3. Bật **Apache** và **MySQL** trong XAMPP Control Panel.
-4. Nạp CSDL:
+2. Bật **Apache** và **MySQL** trong XAMPP Control Panel.
+3. Nạp CSDL:
 
    ```bash
    C:\xampp\mysql\bin\mysql -u root < db\schema.sql
    ```
 
    (hoặc mở phpMyAdmin → Import → chọn `db/schema.sql`).
-5. Truy cập: `http://localhost/owasp-shop/public/index.php`
+4. Truy cập: `http://localhost/owasp-shop/public/index.php`
 
 Tài khoản mẫu:
 
