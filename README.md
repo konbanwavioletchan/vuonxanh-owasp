@@ -29,8 +29,6 @@ define('SECURE', false);  // false = có lỗ hổng (demo tấn công)
                           // true  = đã vá  (khắc phục)
 ```
 
-Nhờ vậy bạn dễ dàng chụp minh chứng **trước / sau** cho từng lỗ hổng. Banner màu trên đầu
-trang cho biết đang ở chế độ nào (đỏ = có lỗ hổng, xanh = an toàn).
 
 ## Cấu hình kết nối CSDL
 
